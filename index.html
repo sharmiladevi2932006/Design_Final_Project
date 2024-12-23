@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Material Bank</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            
+            background-image: linear-gradient(91.6deg, rgba(112, 246, 255, 0.33) 3.2%, rgba(221, 108, 241, 0.26) 42%, rgba(229, 106, 253, 0.71) 71.5%, rgb(123, 183, 253) 100.2%);
+            /* Matches the color from the image */
+            color: #ffffff;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+
+        .offcanvas {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        .user-info {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .user-info img {
+            border-radius: 50%;
+            height: 80px;
+            width: 80px;
+            margin-bottom: 10px;
+        }
+
+        .menu a {
+            display: block;
+            padding: 10px 20px;
+            color: #000;
+            text-decoration: none;
+            font-weight: bold;
+            border: 1px solid #ddd;
+            margin: 5px 20px;
+            border-radius: 5px;
+        }
+
+        .menu a:hover {
+            background-color: #ffffff;
+        }
+
+        .main-header {
+            background-color: #ffffff;
+            color: #000000;
+            padding: 15px;
+            position: relative;
+        }
+
+        .main-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        .main-header .btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .btn-back {
+            left: 10px;
+        }
+
+        .btn-menu {
+            right: 10px;
+        }
+
+        .main-content .card h3 a {
+            color: #000;
+            text-decoration: none;
+        }
+
+        
+        .subject-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .subject-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        p {
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Main Header -->
+    <header class="main-header d-flex align-items-center">
+        <!-- Back Arrow -->
+        <button class="btn btn-light btn-back">
+            ←
+        </button>
+        <!-- Page Title -->
+        <h2>Material Bank</h2>
+        <!-- Hamburger Icon -->
+        <button class="btn btn-light btn-menu" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar"
+            aria-controls="sidebar">
+            ☰
+        </button>
+    </header>
+
+    <!-- Offcanvas Sidebar -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="sidebarLabel">Menu</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="user-info">
+                <img src="https://via.placeholder.com/80" alt="User Profile">
+                <h4>Shabnam</h4>
+                <p>shabnam@student.tce.edu</p>
+                <p>CSE | II Year</p>
+            </div>
+            <div class="menu">
+                <a href="#">Profile</a>
+                <a href="#">RAG Ai</a>
+                <a href="#">Chat</a>
+                <a href="#">Material Bank</a>
+                <a href="#" onclick="toggleTheme()">Light/Dark Mode</a>
+                <a href="#">About</a>
+                <a href="#">Logout</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content container py-5">
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="card subject-card">
+                    <div class="card-body text-center" style="  background-image: linear-gradient(91.2deg, rgb(255, 244, 228) 7.1%, rgb(240, 246, 238) 67.4%);">
+                        <h3><a href="dsa.html" class="stretched-link">DSA</a></h3>
+                        <p>Data Structures and Algorithms</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card subject-card">
+                    <div class="card-body text-center" style="  background-image: linear-gradient(99.2deg, rgb(255, 244, 228) 7.1%, rgb(240, 246, 238) 67.4%);">
+                        <h3><a href="tdpl.html" class="stretched-link">TDPL</a></h3>
+                        <p>Theory and Design of Programming Languages</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card subject-card">
+                    <div class="card-body text-center" style="  background-image: linear-gradient(85.2deg, rgb(255, 244, 228) 7.1%, rgb(240, 246, 238) 67.4%);">
+                        <h3><a href="oops.html" class="stretched-link">OOP</a></h3>
+                        <p>Object-Oriented Programming</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card subject-card">
+                    <div class="card-body text-center" style="  background-image: linear-gradient(102.2deg, rgb(255, 244, 228) 7.1%, rgb(240, 246, 238) 67.4%);">
+                        <h3><a href="os.html" class="stretched-link">OS</a></h3>
+                        <p>Operating Systems</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('bg-dark');
+            document.body.classList.toggle('text-light');
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Application</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            background-image: linear-gradient(109.6deg, rgba(112, 246, 255, 0.33) 3.2%, rgba(221, 108, 241, 0.26) 42%, rgba(229, 106, 253, 0.71) 71.5%, rgb(123, 183, 253) 100.2%);
+            
+            justify-content: center;
+            align-items: center;
+        }
+
+        .chat-container {
+            width: 100%;
+            margin-top:55px;
+            margin-left:470px;
+            max-width: 600px;
+            background-image: linear-gradient(174.2deg, rgb(255, 244, 228) 7.1%, rgb(240, 246, 238) 67.4%);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .chat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .chat-header h2 {
+            margin: 0;
+        }
+
+        .chat-messages {
+            height: 400px;
+            overflow-y: auto;
+            padding: 10px;
+            background: #ffffff;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .chat-input {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .chat-input input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border-radius: 20px;
+            border: 1px solid #ffffff;
+            outline: none;
+        }
+
+        .chat-input input[type="file"] {
+            display: none;
+        }
+
+        .chat-input label {
+            cursor: pointer;
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border-radius: 20px;
+            border: none;
+        }
+
+        .chat-input button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .chat-input button:hover {
+            background: #0056b3;
+        }
+
+        .message {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            background: #ffffff;
+        }
+
+        .message.user {
+            background: #ffffff;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+
+<div class="chat-container">
+    <div class="chat-header">
+        <h2>Chat</h2>
+        <button class="btn btn-secondary" id="logout">Logout</button>
+    </div>
+
+    <div class="chat-messages" id="messages"></div>
+
+    <form id="chatForm" class="chat-input">
+        <input type="text" id="messageInput" placeholder="Type your message..." required>
+        <label for="fileInput">📂 Browse</label>
+        <input type="file" id="fileInput" />
+        <button type="submit">Send</button>
+    </form>
+</div>
+
+<script type="module">
+    // Firebase imports
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import {
+        getFirestore, collection, addDoc, query, orderBy, onSnapshot
+    } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+    import {
+        getAuth, signOut
+    } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+
+    import {
+        getStorage, ref, uploadBytes, getDownloadURL
+    } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-storage.js";
+
+    // Firebase configuration
+    const firebaseConfig = {
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_AUTH_DOMAIN",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_STORAGE_BUCKET",
+        messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+        appId: "YOUR_APP_ID"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const database = getFirestore(app);
+    const storage = getStorage(app);
+    const auth = getAuth(app);
+
+    const messagesContainer = document.getElementById("messages");
+    const chatForm = document.getElementById("chatForm");
+    const messageInput = document.getElementById("messageInput");
+    const fileInput = document.getElementById("fileInput");
+
+    // Load messages from Firestore
+    const loadMessages = () => {
+        const q = query(collection(database, "chats"), orderBy("createdAt", "asc"));
+        onSnapshot(q, (querySnapshot) => {
+            messagesContainer.innerHTML = "";
+            querySnapshot.forEach((doc) => {
+                const message = doc.data();
+                const messageElement = document.createElement("div");
+                messageElement.className = `message ${message.user === auth.currentUser?.email ? "user" : ""}`;
+                if (message.fileURL) {
+                    const fileLink = document.createElement("a");
+                    fileLink.href = message.fileURL;
+                    fileLink.target = "_blank";
+                    fileLink.textContent = "📎 Download File";
+                    messageElement.appendChild(fileLink);
+                } else {
+                    messageElement.textContent = message.text;
+                }
+                messagesContainer.appendChild(messageElement);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            });
+        });
+    };
+
+    // Send message or upload file
+    chatForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const message = messageInput.value;
+        const file = fileInput.files[0];
+
+        if (file) {
+            const fileRef = ref(storage, `uploads/${file.name}`);
+            await uploadBytes(fileRef, file);
+            const fileURL = await getDownloadURL(fileRef);
+            await addDoc(collection(database, "chats"), {
+                fileURL,
+                createdAt: new Date(),
+                user: auth.currentUser?.email || "Anonymous"
+            });
+            fileInput.value = "";
+        } else if (message.trim() !== "") {
+            await addDoc(collection(database, "chats"), {
+                text: message,
+                createdAt: new Date(),
+                user: auth.currentUser?.email || "Anonymous"
+            });
+        }
+
+        messageInput.value = "";
+    });
+
+    // Logout
+    document.getElementById("logout").addEventListener("click", () => {
+        signOut(auth).then(() => {
+            alert("You have been logged out.");
+            window.location.href = "login.html"; // Redirect to login page
+        }).catch((error) => console.error("Logout error: ", error));
+    });
+
+    loadMessages(); // Load messages on page load
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

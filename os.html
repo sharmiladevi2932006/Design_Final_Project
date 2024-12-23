@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OS - 22CS360</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: linear-gradient(91.6deg, rgba(112, 246, 255, 0.33) 3.2%, rgba(221, 108, 241, 0.26) 42%, rgba(229, 106, 253, 0.71) 71.5%, rgb(123, 183, 253) 100.2%);
+            /* Background color similar to Material Bank */
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            color: #ffffff;
+        }
+
+        .main-header {
+            background-color: #ffffff;
+            color: #000000;
+            padding: 15px;
+            position: relative;
+        }
+
+        .main-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        .main-header .btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .btn-back {
+            left: 10px;
+        }
+
+        .btn-menu {
+            right: 10px;
+        }
+
+        .offcanvas {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        .user-info {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .user-info img {
+            border-radius: 50%;
+            height: 80px;
+            width: 80px;
+            margin-bottom: 10px;
+        }
+
+        .menu a {
+            display: block;
+            padding: 10px 20px;
+            color: #000;
+            text-decoration: none;
+            font-weight: bold;
+            border: 1px solid #ddd;
+            margin: 5px 20px;
+            border-radius: 5px;
+        }
+
+        .menu a:hover {
+            background-color: #f0f0f0;
+        }
+
+        .content-section {
+            background-color: #ffffff;
+            color: #000000;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .content-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #7e7e9e;
+            display: inline-block;
+        }
+
+        .content-section ul {
+            padding: 0;
+            list-style: none;
+        }
+
+        .content-section .list-group-item {
+            border: 1px solid #969191;
+            /* Adding a border around each list item */
+            background-color: #ffffff;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            color: black;
+            /* Text color changed to black */
+        }
+
+        .content-section .list-group-item a {
+            text-decoration: none;
+            color: black;
+            /* Ensuring link text is black */
+        }
+
+        .content-section .list-group-item a:hover {
+            text-decoration: none;
+            /* Removing underline on hover */
+        }
+
+        /* Numbering the list items */
+        .content-section .list-group-item::before {
+            content: counter(item) ". ";
+            counter-increment: item;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        /* Start the numbering from 1 */
+        .content-section ul {
+            counter-reset: item;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Main Header -->
+    <header class="main-header d-flex align-items-center">
+        <!-- Back Arrow -->
+        <button class="btn btn-light btn-back" onclick="history.back()">
+            ←
+        </button>
+        <!-- Page Title -->
+        <h2>Operating Systems (OS)</h2>
+        <!-- Hamburger Icon -->
+        <button class="btn btn-light btn-menu" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar"
+            aria-controls="sidebar">
+            ☰
+        </button>
+    </header>
+
+    <!-- Offcanvas Sidebar -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="sidebarLabel">Menu</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="user-info">
+                <img src="https://via.placeholder.com/80" alt="User Profile">
+                <h4>Shabnam</h4>
+                <p>shabnam@student.tce.edu</p>
+                <p>CSE | II Year</p>
+            </div>
+            <div class="menu">
+                <a href="#">Profile</a>
+                <a href="#">RAG Ai</a>
+                <a href="#">Chat</a>
+                <a href="index.html">Material Bank</a>
+                <a href="#" onclick="toggleTheme()">Light/Dark Mode</a>
+                <a href="#">About</a>
+                <a href="#">Logout</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container py-5">
+        <!-- Class Notes Section -->
+        <div class="content-section" style="background-image: linear-gradient(91.2deg, rgb(255, 244, 228) 7.1%, rgb(240, 246, 238) 67.4%);">
+            <h3>Class Notes</h3>
+            <ul class="list-group">
+                <li class="list-group-item"><a href="Operating Systems (1).pdf" target="_blank">Introduction to
+                        Operating Systems</a></li>
+                <li class="list-group-item"><a href="Operating Systems (1).pdf" target="_blank">Process
+                        Management</a></li>
+                <li class="list-group-item"><a href="Operating Systems (1).pdf" target="_blank">Memory
+                        Management</a></li>
+                <li class="list-group-item"><a href="Operating Systems (1).pdf" target="_blank">File Systems</a></li>
+                <li class="list-group-item"><a href="Operating Systems (1).pdf" target="_blank">Advanced Operating
+                        Systems</a></li>
+            </ul>
+        </div>
+
+        <!-- YouTube Links Section -->
+        <div class="content-section" style="background-image: linear-gradient(91.2deg, rgb(255, 244, 228) 7.1%, rgb(240, 246, 238) 67.4%);">
+            <h3>YouTube Links</h3>
+            <ul class="list-group">
+                <li class="list-group-item"><a href="https://www.youtube.com/watch?v=OS-xSV7AoBQ"
+                        target="_blank">Introduction to Operating Systems</a></li>
+                <li class="list-group-item"><a href="https://www.youtube.com/watch?v=2d2T4txmBj0"
+                        target="_blank">Process Synchronization</a></li>
+                <li class="list-group-item"><a href="https://www.youtube.com/watch?v=4_9twnEduFA" target="_blank">Memory
+                        Management in OS</a></li> 
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('bg-dark');
+            document.body.classList.toggle('text-light');
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
